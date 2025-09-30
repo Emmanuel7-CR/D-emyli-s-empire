@@ -853,9 +853,9 @@ body.sidebar-open .main-content {
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
-    background: var(--secondary-dark);
+    background: var(--background);
     border-bottom: 1px solid rgba(255,255,255,0.1);
-    position: sticky;
+    position: relative;
     top: 0;
     z-index: 1020;
     flex-wrap: wrap;
