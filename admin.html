@@ -44,6 +44,10 @@
                         <i class="fas fa-eye" id="togglePassword"></i>
                     </div>
                 </div>
+                <div class="form-check mb-3">
+    <input type="checkbox" id="rememberMe" class="form-check-input">
+    <label for="rememberMe" class="form-check-label">Remember me</label>
+</div>
                 <button type="submit" class="btn-login">
                     <span id="loginBtnText">Login</span>
                     <i class="fas fa-arrow-right"></i>
@@ -72,25 +76,25 @@
                 <p>Admin Dashboard</p>
             </div>
             <ul class="sidebar-menu">
-                <li>
-                    <a href="#" class="active">
-                        <i class="fas fa-calendar-check"></i>
-                        <span>Bookings</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Analytics</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fas fa-cog"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
-            </ul>
+    <li>
+        <a href="#" class="active" onclick="switchView('bookings')">
+            <i class="fas fa-calendar-check"></i>
+            <span>Bookings</span>
+        </a>
+    </li>
+    <li>
+        <a href="#" onclick="switchView('analytics')">
+            <i class="fas fa-chart-line"></i>
+            <span>Analytics</span>
+        </a>
+    </li>
+    <li>
+        <a href="#" onclick="switchView('settings')">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+    </li>
+</ul>
             <button class="logout-btn" onclick="logout()">
                 <i class="fas fa-sign-out-alt"></i>
                 Logout
@@ -150,7 +154,7 @@
             </div>
 
             <!-- Bookings Section -->
-            <div class="bookings-section">
+            <div class="bookings-section" id="bookingsSection">
                 <div class="section-header">
                     <h2>All Bookings</h2>
                     <div class="filter-tabs">
@@ -173,6 +177,44 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Analytics Section (hidden by default) -->
+<div class="analytics-section" id="analyticsSection" style="display: none;">
+    <div class="section-header">
+        <h2>Booking Analytics</h2>
+        <p>Bookings over the last 7 days</p>
+    </div>
+    <div class="chart-container">
+        <canvas id="bookingsChart" width="400" height="200"></canvas>
+    </div>
+</div>
+
+<!-- Settings Section (hidden by default) -->
+<div class="settings-section" id="settingsSection" style="display: none;">
+    <div class="section-header">
+        <h2>Admin Settings</h2>
+    </div>
+    <div class="settings-form">
+       <form id="settingsForm">
+    <div class="mb-3">
+        <label for="newPassword" class="form-label">New Admin Password</label>
+        <div class="password-toggle">
+            <input type="password" id="newPassword" class="form-control" placeholder="Enter new password" minlength="6" required>
+            <i class="fas fa-eye" id="toggleSettingsPassword"></i>
+        </div>
+    </div>
+    <!-- ✅ ADD CONFIRM FIELD -->
+    <div class="mb-3">
+        <label for="confirmPassword" class="form-label">Confirm New Password</label>
+        <div class="password-toggle">
+            <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm new password" minlength="6" required>
+            <i class="fas fa-eye" id="toggleConfirmPassword"></i>
+        </div>
+    </div>
+    <button type="submit" class="btn-login">Update Password</button>
+</form>
+    </div>
+</div>
         </main>
     </div>
 
@@ -185,6 +227,9 @@
     <!-- Firebase Compat SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
   // ✅ Firebase Config with databaseURL
@@ -212,12 +257,23 @@
         };
 
         let bookings = [];
-        let currentFilter = 'all';
+        let currentView = 'bookings'; // 'bookings', 'analytics', or 'settings'
+        let bookingsChart = null;
+         let currentFilter = 'all';
 
         // Check if already logged in
-        window.addEventListener('load', function() {
-    const isLoggedIn = sessionStorage.getItem('adminLoggedIn');
-    if (isLoggedIn === 'true') {
+     window.addEventListener('load', function() {
+    // Load saved password
+    const savedPassword = localStorage.getItem('adminPassword');
+    if (savedPassword) {
+        ADMIN_CREDENTIALS.password = savedPassword;
+    }
+    
+    // ✅ Check both localStorage AND sessionStorage
+    const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true' || 
+                      sessionStorage.getItem('adminLoggedIn') === 'true';
+    
+    if (isLoggedIn) {
         showDashboard();
     }
 });
@@ -237,43 +293,63 @@
                 icon.classList.add('fa-eye');
             }
         });
+        // Toggle confirm password visibility
+document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+    const input = document.getElementById('confirmPassword');
+    const icon = this;
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+});
 
-        // Login form submission
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+      // Login form submission
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const rememberMe = document.getElementById('rememberMe').checked; // ✅
+    const loginBtn = document.querySelector('.btn-login');
+    const btnText = document.getElementById('loginBtnText');
+    
+    loginBtn.disabled = true;
+    btnText.textContent = 'Logging in...';
+    
+    setTimeout(() => {
+        if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+            // ✅ Save based on "Remember Me"
+            if (rememberMe) {
+                localStorage.setItem('adminLoggedIn', 'true'); // persists after browser close
+            } else {
+                sessionStorage.setItem('adminLoggedIn', 'true'); // clears when tab closes
+            }
             
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const loginBtn = document.querySelector('.btn-login');
-            const btnText = document.getElementById('loginBtnText');
-            
-            loginBtn.disabled = true;
-            btnText.textContent = 'Logging in...';
-            
-            // Simulate API call
-            setTimeout(() => {
-                if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
-                    sessionStorage.setItem('adminLoggedIn', 'true');
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Welcome Back!',
-                        text: 'Login successful',
-                        timer: 1500,
-                        showConfirmButton: false
-                    }).then(() => {
-                        showDashboard();
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Login Failed',
-                        text: 'Invalid username or password',
-                    });
-                    loginBtn.disabled = false;
-                    btnText.textContent = 'Login';
-                }
-            }, 1000);
-        });
+            Swal.fire({
+                icon: 'success',
+                title: 'Welcome Back!',
+                text: 'Login successful',
+                timer: 1500,
+                showConfirmButton: false
+            }).then(() => {
+                showDashboard();
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Login Failed',
+                text: 'Invalid username or password',
+            });
+            loginBtn.disabled = false;
+            btnText.textContent = 'Login';
+        }
+    }, 1000);
+});
 
         // Show dashboard
        function showDashboard() {
@@ -282,21 +358,23 @@
     listenToBookings(); // Start real-time listener
 }
         // Logout
-        function logout() {
-            Swal.fire({
-                title: 'Logout?',
-                text: 'Are you sure you want to logout?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, Logout',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    sessionStorage.removeItem('adminLoggedIn');
-                    location.reload();
-                }
-            });
+      function logout() {
+    Swal.fire({
+        title: 'Logout?',
+        text: 'Are you sure you want to logout?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Logout',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // ✅ Clear both storage types
+            localStorage.removeItem('adminLoggedIn');
+            sessionStorage.removeItem('adminLoggedIn');
+            location.reload();
         }
+    });
+}
 
       // Listen to bookings in real time from Firebase
 function listenToBookings() {
@@ -482,31 +560,149 @@ bookingsRef.child(booking.firebaseKey).update({ status: 'confirmed' });
             });
         }
 
-        // Delete booking
-        function deleteBooking(index) {
+     // Delete booking
+function deleteBooking(index) {
+    Swal.fire({
+        title: 'Delete Booking?',
+        text: 'This action cannot be undone.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Delete',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const booking = bookings[index]; // ✅ get the booking
+            bookingsRef.child(booking.firebaseKey).remove();
+            // UI will auto-update via Firebase listener
+
             Swal.fire({
-                title: 'Delete Booking?',
-                text: 'This action cannot be undone.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, Delete',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                  const booking = bookings[index];
-bookingsRef.child(booking.firebaseKey).remove();
-// UI will auto-update
-                    
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Deleted!',
-                        text: `Booking ${deleted.id} has been removed.`,
-                        timer: 2000,
-                        showConfirmButton: false
-                    });
-                }
+                icon: 'success',
+                title: 'Deleted!',
+                text: `Booking ${booking.id} has been removed.`, // ✅ use booking.id
+                timer: 2000,
+                showConfirmButton: false
             });
         }
+    });
+}
+
+        function switchView(view) {
+    // Update active sidebar item
+    document.querySelectorAll('.sidebar-menu a').forEach(link => {
+        link.classList.remove('active');
+        if (link.querySelector('span').textContent.toLowerCase().includes(view)) {
+            link.classList.add('active');
+        }
+    });
+
+    // Hide all sections
+    document.getElementById('bookingsSection')?.style.setProperty('display', 'none');
+    document.getElementById('analyticsSection').style.display = 'none';
+    document.getElementById('settingsSection').style.display = 'none';
+
+    // Show selected section
+    if (view === 'bookings') {
+        document.querySelector('.bookings-section').style.display = 'block';
+        currentView = 'bookings';
+    } else if (view === 'analytics') {
+        document.getElementById('analyticsSection').style.display = 'block';
+        renderAnalytics();
+        currentView = 'analytics';
+    } else if (view === 'settings') {
+        document.getElementById('settingsSection').style.display = 'block';
+        currentView = 'settings';
+    }
+
+    // Update header title
+    document.querySelector('.dashboard-header h1').textContent = 
+        view.charAt(0).toUpperCase() + view.slice(1) + ' Dashboard';
+}
+
+function renderAnalytics() {
+    // Get last 7 days
+    const days = [];
+    const counts = [];
+    const today = new Date();
+    
+    for (let i = 6; i >= 0; i--) {
+        const date = new Date();
+        date.setDate(today.getDate() - i);
+        const dateStr = date.toISOString().split('T')[0];
+        days.push(date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }));
+        
+        const count = bookings.filter(b => b.date === dateStr).length;
+        counts.push(count);
+    }
+
+    const ctx = document.getElementById('bookingsChart').getContext('2d');
+    
+    // Destroy existing chart if any
+    if (bookingsChart) {
+        bookingsChart.destroy();
+    }
+
+    bookingsChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: days,
+            datasets: [{
+                label: 'Bookings',
+                data: counts,
+                backgroundColor: 'rgba(212, 175, 55, 0.7)', // gold
+                borderColor: 'rgba(212, 175, 55, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { precision: 0 }
+                }
+            }
+        }
+    });
+}
+
+// Toggle password visibility in settings
+document.getElementById('toggleSettingsPassword').addEventListener('click', function() {
+    const input = document.getElementById('newPassword');
+    const icon = this;
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+});
+
+// Handle settings form
+document.getElementById('settingsForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    
+    if (newPassword.length < 6) {
+        Swal.fire('Error', 'Password must be at least 6 characters', 'error');
+        return;
+    }
+    
+    if (newPassword !== confirmPassword) {
+        Swal.fire('Error', 'Passwords do not match!', 'error');
+        return;
+    }
+    
+    // Update in memory
+    ADMIN_CREDENTIALS.password = newPassword;
+    localStorage.setItem('adminPassword', newPassword);
+    
+    Swal.fire('Success', 'Password updated successfully!', 'success');
+    this.reset();
+});
 
         // Refresh bookings
       function refreshBookings() {

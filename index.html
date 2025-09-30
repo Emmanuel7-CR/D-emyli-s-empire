@@ -712,8 +712,12 @@
       bookingsRef.push(bookingData)
           .then(() => {
               // Success
-              alert('Thank you for your booking request! We will contact you shortly to confirm your appointment.');
-              document.getElementById('bookingForm').reset();
+             // Show success modal
+const successModal = new bootstrap.Modal(document.getElementById('bookingSuccessModal'));
+successModal.show();
+
+// Reset form
+document.getElementById('bookingForm').reset();
           })
           .catch((error) => {
               console.error('Booking failed:', error);
@@ -726,6 +730,27 @@
   const today = new Date().toISOString().split('T')[0];
   dateInput.setAttribute('min', today);
 </script>
-   
+   <!-- Booking Success Modal -->
+<div class="modal fade" id="bookingSuccessModal" tabindex="-1" aria-labelledby="bookingSuccessModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background: var(--secondary-dark); border: 2px solid var(--gold);">
+      <div class="modal-header" style="border-bottom: 1px solid var(--gold);">
+        <h5 class="modal-title" style="color: var(--gold);" id="bookingSuccessModalLabel">
+          <i class="fas fa-check-circle"></i> Booking Received!
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" style="filter: invert(1);"></button>
+      </div>
+      <div class="modal-body" style="color: var(--text-muted);">
+        <p>Thank you for your booking request! We will contact you shortly to confirm your appointment.</p>
+        <p class="text-center" style="margin-top: 1rem;">
+          <i class="fas fa-calendar-check" style="font-size: 2.5rem; color: var(--gold);"></i>
+        </p>
+      </div>
+      <div class="modal-footer" style="border-top: 1px solid var(--gold);">
+        <button type="button" class="btn btn-primary-custom" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
