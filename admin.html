@@ -248,6 +248,23 @@ function showDashboard() {
     listenToBookings();
 }
 
+function logout() {
+    Swal.fire({
+        title: 'Logout?',
+        text: 'Are you sure you want to logout?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Logout',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            localStorage.removeItem('adminLoggedIn');
+            sessionStorage.removeItem('adminLoggedIn');
+            window.location.href = 'login.html';
+        }
+    });
+}
+
 // Handle login/logout button click
 function handleAuthAction() {
     const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true' || 
