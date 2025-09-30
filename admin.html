@@ -75,6 +75,9 @@
                 <h2>D'EMYLI'S EMPIRE</h2>
                 <p>Admin Dashboard</p>
             </div>
+            <div class="sidebar-close" onclick="toggleSidebar()">
+    <i class="fas fa-times"></i>
+</div>
             <ul class="sidebar-menu">
     <li>
         <a href="#" class="active" onclick="switchView('bookings')">
@@ -104,22 +107,20 @@
         <!-- Main Content -->
         <main class="main-content">
             <!-- Dashboard Header -->
-            <div class="dashboard-header">
-                <div>
-                    <h1>Bookings Dashboard</h1>
-                    <p style="color: var(--text-muted); margin: 0;">Welcome back, Admin!</p>
-                </div>
-                <div class="dashboard-actions">
-                    <button class="btn-action" onclick="refreshBookings()">
-                        <i class="fas fa-sync-alt"></i>
-                        Refresh
-                    </button>
-                    <button class="btn-action" onclick="exportBookings()">
-                        <i class="fas fa-download"></i>
-                        Export CSV
-                    </button>
-                </div>
-            </div>
+           <div class="dashboard-header">
+    <div>
+        <h1>Bookings Dashboard</h1>
+        <p style="color: var(--text-muted); margin: 0; font-size: 0.9rem;">Welcome back, Admin!</p>
+    </div>
+    <div class="dashboard-actions">
+        <button class="btn-action" onclick="refreshBookings()">
+            <i class="fas fa-sync-alt"></i> Refresh
+        </button>
+        <button class="btn-action" onclick="exportBookings()">
+            <i class="fas fa-download"></i> Export
+        </button>
+    </div>
+</div>
 
             <!-- Stats Cards -->
             <div class="stats-grid">
@@ -752,10 +753,34 @@ document.getElementById('settingsForm').addEventListener('submit', function(e) {
         }
 
         // Toggle sidebar on mobile
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-        }
+       function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const isMobile = window.innerWidth <= 992;
 
+    if (isMobile) {
+        sidebar.classList.toggle('active');
+        // Optional: dim background
+        document.body.classList.toggle('sidebar-open', sidebar.classList.contains('active'));
+    } else {
+        // On desktop, you can choose to collapse or not
+        // For now, we'll keep it always open on desktop
+        // (or you can implement a "collapsed" mode if desired)
+    }
+}
+
+// Close sidebar when clicking outside (on mobile)
+document.addEventListener('click', function(e) {
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.querySelector('.mobile-menu-toggle');
+    const isMobile = window.innerWidth <= 992;
+    
+    if (isMobile && sidebar.classList.contains('active')) {
+        if (!sidebar.contains(e.target) && e.target !== toggle) {
+            sidebar.classList.remove('active');
+            document.body.classList.remove('sidebar-open');
+        }
+    }
+});
        
 
         console.log('%c🎨 D\'EMYLI\'S EMPIRE Admin Dashboard 🎨', 'color: #d4af37; font-size: 16px; font-weight: bold;');
