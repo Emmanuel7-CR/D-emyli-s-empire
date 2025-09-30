@@ -22,46 +22,7 @@
 
 </head>
 <body>
-    <!-- Login Page -->
-    <div class="login-container" id="loginPage">
-        <div class="login-box">
-            <div class="login-icon">
-                <i class="fas fa-user-shield"></i>
-            </div>
-            <div class="login-header">
-                <h1>Admin Portal</h1>
-                <p>D'EMYLI'S EMPIRE</p>
-            </div>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" id="username" class="form-control" placeholder="Enter username" required autocomplete="username">
-                </div>
-                <div class="form-group">
-                    <label for="password" class="form-label">Password</label>
-                    <div class="password-toggle">
-                        <input type="password" id="password" class="form-control" placeholder="Enter password" required autocomplete="current-password">
-                        <i class="fas fa-eye" id="togglePassword"></i>
-                    </div>
-                </div>
-                <div class="form-check mb-3">
-    <input type="checkbox" id="rememberMe" class="form-check-input">
-    <label for="rememberMe" class="form-check-label">Remember me</label>
-</div>
-                <button type="submit" class="btn-login">
-                    <span id="loginBtnText">Login</span>
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </form>
-            <div class="back-to-site">
-                <a href="index.html">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Website
-                </a>
-            </div>
-        </div>
-    </div>
-
+   
     <!-- Dashboard -->
     <div class="dashboard" id="dashboard">
         <!-- Mobile Menu Toggle -->
@@ -98,10 +59,10 @@
         </a>
     </li>
 </ul>
-            <button class="logout-btn" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i>
-                Logout
-            </button>
+            <button id="authToggleBtn" class="logout-btn" onclick="handleAuthAction()">
+    <i class="fas fa-sign-out-alt"></i>
+    <span id="authBtnText">Logout</span>
+</button>
         </aside>
 
         <!-- Main Content -->
@@ -257,6 +218,11 @@
             password: 'demylis2025'
         };
 
+        // Redirect to login if not authenticated
+if (!(localStorage.getItem('adminLoggedIn') === 'true' || sessionStorage.getItem('adminLoggedIn') === 'true')) {
+    window.location.href = 'login.html';
+}
+
         let bookings = [];
         let currentView = 'bookings'; // 'bookings', 'analytics', or 'settings'
         let bookingsChart = null;
@@ -270,12 +236,17 @@
         ADMIN_CREDENTIALS.password = savedPassword;
     }
     
-    // ✅ Check both localStorage AND sessionStorage
+    // ✅ Update auth button state
+    updateAuthButton();
+    
     const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true' || 
                       sessionStorage.getItem('adminLoggedIn') === 'true';
     
     if (isLoggedIn) {
         showDashboard();
+    } else {
+        // Optional: redirect to login if accessed directly
+        window.location.href = 'login.html';
     }
 });
 
@@ -359,7 +330,7 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     listenToBookings(); // Start real-time listener
 }
         // Logout
-      function logout() {
+     function logout() {
     Swal.fire({
         title: 'Logout?',
         text: 'Are you sure you want to logout?',
@@ -369,12 +340,42 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
         cancelButtonText: 'Cancel'
     }).then((result) => {
         if (result.isConfirmed) {
-            // ✅ Clear both storage types
+            // Clear auth state
             localStorage.removeItem('adminLoggedIn');
             sessionStorage.removeItem('adminLoggedIn');
-            location.reload();
+            // ✅ Redirect to login page
+            window.location.href = 'login.html';
         }
     });
+}
+
+// Handle login/logout button click
+function handleAuthAction() {
+    const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true' || 
+                      sessionStorage.getItem('adminLoggedIn') === 'true';
+    
+    if (isLoggedIn) {
+        logout(); // triggers redirect
+    } else {
+        window.location.href = 'login.html';
+    }
+}
+
+// Update button text based on login state
+function updateAuthButton() {
+    const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true' || 
+                      sessionStorage.getItem('adminLoggedIn') === 'true';
+    
+    const btnText = document.getElementById('authBtnText');
+    const btnIcon = document.querySelector('#authToggleBtn i');
+    
+    if (isLoggedIn) {
+        btnText.textContent = 'Logout';
+        btnIcon.className = 'fas fa-sign-out-alt';
+    } else {
+        btnText.textContent = 'Login';
+        btnIcon.className = 'fas fa-sign-in-alt';
+    }
 }
 
       // Listen to bookings in real time from Firebase
