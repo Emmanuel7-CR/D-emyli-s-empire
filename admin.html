@@ -218,9 +218,13 @@
             password: 'demylis2025'
         };
 
-        // Redirect to login if not authenticated
+        // ✅ Keep this simplified version
 if (!(localStorage.getItem('adminLoggedIn') === 'true' || sessionStorage.getItem('adminLoggedIn') === 'true')) {
     window.location.href = 'login.html';
+} else {
+    // User is logged in → initialize dashboard
+    document.getElementById('dashboard').classList.add('active');
+    listenToBookings();
 }
 
         let bookings = [];
@@ -229,124 +233,13 @@ if (!(localStorage.getItem('adminLoggedIn') === 'true' || sessionStorage.getItem
          let currentFilter = 'all';
 
         // Check if already logged in
-     window.addEventListener('load', function() {
-    // Load saved password
-    const savedPassword = localStorage.getItem('adminPassword');
-    if (savedPassword) {
-        ADMIN_CREDENTIALS.password = savedPassword;
-    }
     
-    // ✅ Update auth button state
-    updateAuthButton();
-    
-    const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true' || 
-                      sessionStorage.getItem('adminLoggedIn') === 'true';
-    
-    if (isLoggedIn) {
-        showDashboard();
-    } else {
-        // Optional: redirect to login if accessed directly
-        window.location.href = 'login.html';
-    }
-});
 
-        // Toggle password visibility
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
-            const icon = this;
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        });
-        // Toggle confirm password visibility
-document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
-    const input = document.getElementById('confirmPassword');
-    const icon = this;
-    if (input.type === 'password') {
-        input.type = 'text';
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-    } else {
-        input.type = 'password';
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
-    }
-});
-
-      // Login form submission
-document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const rememberMe = document.getElementById('rememberMe').checked; // ✅
-    const loginBtn = document.querySelector('.btn-login');
-    const btnText = document.getElementById('loginBtnText');
-    
-    loginBtn.disabled = true;
-    btnText.textContent = 'Logging in...';
-    
-    setTimeout(() => {
-        if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
-            // ✅ Save based on "Remember Me"
-            if (rememberMe) {
-                localStorage.setItem('adminLoggedIn', 'true'); // persists after browser close
-            } else {
-                sessionStorage.setItem('adminLoggedIn', 'true'); // clears when tab closes
-            }
-            
-            Swal.fire({
-                icon: 'success',
-                title: 'Welcome Back!',
-                text: 'Login successful',
-                timer: 1500,
-                showConfirmButton: false
-            }).then(() => {
-                showDashboard();
-            });
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Login Failed',
-                text: 'Invalid username or password',
-            });
-            loginBtn.disabled = false;
-            btnText.textContent = 'Login';
-        }
-    }, 1000);
-});
-
-        // Show dashboard
-       function showDashboard() {
-    document.getElementById('loginPage').style.display = 'none';
+        
+function showDashboard() {
+    // No need to hide loginPage — we're already on admin.html
     document.getElementById('dashboard').classList.add('active');
-    listenToBookings(); // Start real-time listener
-}
-        // Logout
-     function logout() {
-    Swal.fire({
-        title: 'Logout?',
-        text: 'Are you sure you want to logout?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, Logout',
-        cancelButtonText: 'Cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Clear auth state
-            localStorage.removeItem('adminLoggedIn');
-            sessionStorage.removeItem('adminLoggedIn');
-            // ✅ Redirect to login page
-            window.location.href = 'login.html';
-        }
-    });
+    listenToBookings();
 }
 
 // Handle login/logout button click
