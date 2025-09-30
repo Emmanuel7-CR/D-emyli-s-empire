@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - D'EMYLI'S EMPIRE</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.32/sweetalert2.min.css">
+
+    <!-- Custom CSS -->
+     <link rel="stylesheet" href="admin.css">
+
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <div class="login-icon">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <div class="login-header">
+                <h1>Admin Portal</h1>
+                <p>D'EMYLI'S EMPIRE</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" class="form-control" placeholder="Enter username" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="password-toggle">
+                        <input type="password" id="password" class="form-control" placeholder="Enter password" required autocomplete="current-password">
+                        <i class="fas fa-eye" id="togglePassword"></i>
+                    </div>
+                </div>
+                <button type="submit" class="btn-login">
+                    <span id="loginBtnText">Login</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+            <div class="back-to-site">
+                <a href="index.html">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Website
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <!-- Mobile Menu Toggle -->
+        <div class="mobile-menu-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>D'EMYLI'S EMPIRE</h2>
+                <p>Admin Dashboard</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#" class="active">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Bookings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <div>
+                    <h1>Bookings Dashboard</h1>
+                    <p style="color: var(--text-muted); margin: 0;">Welcome back, Admin!</p>
+                </div>
+                <div class="dashboard-actions">
+                    <button class="btn-action" onclick="refreshBookings()">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                    <button class="btn-action" onclick="exportBookings()">
+                        <i class="fas fa-download"></i>
+                        Export CSV
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-value" id="totalBookings">0</div>
+                    <div class="stat-label">Total Bookings</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-value" id="pendingBookings">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-value" id="confirmedBookings">0</div>
+                    <div class="stat-label">Confirmed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div class="stat-value" id="todayBookings">0</div>
+                    <div class="stat-label">Today</div>
+                </div>
+            </div>
+
+            <!-- Bookings Section -->
+            <div class="bookings-section">
+                <div class="section-header">
+                    <h2>All Bookings</h2>
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-filter="all" onclick="filterBookings('all')">All</button>
+                        <button class="filter-tab" data-filter="pending" onclick="filterBookings('pending')">Pending</button>
+                        <button class="filter-tab" data-filter="confirmed" onclick="filterBookings('confirmed')">Confirmed</button>
+                    </div>
+                </div>
+                
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search by name, email, or booking ID..." onkeyup="searchBookings()">
+                </div>
+
+                <div class="bookings-grid" id="bookingsGrid">
+                    <div class="no-bookings">
+                        <i class="fas fa-calendar-times"></i>
+                        <h3 style="color: var(--gold); margin-bottom: 0.5rem;">No bookings yet</h3>
+                        <p>Bookings will appear here once customers make appointments</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.32/sweetalert2.all.min.js"></script>
+    
+    <script>
+        // Admin credentials (In production, use proper backend authentication)
+        const ADMIN_CREDENTIALS = {
+            username: 'admin',
+            password: 'demylis2025'
+        };
+
+        let bookings = [];
+        let currentFilter = 'all';
+
+        // Check if already logged in
+        window.addEventListener('load', function() {
+    const isLoggedIn = sessionStorage.getItem('adminLoggedIn');
+    if (isLoggedIn === 'true') {
+        showDashboard();
+    }
+});
+
+        // Toggle password visibility
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this;
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const loginBtn = document.querySelector('.btn-login');
+            const btnText = document.getElementById('loginBtnText');
+            
+            loginBtn.disabled = true;
+            btnText.textContent = 'Logging in...';
+            
+            // Simulate API call
+            setTimeout(() => {
+                if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                    sessionStorage.setItem('adminLoggedIn', 'true');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Welcome Back!',
+                        text: 'Login successful',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        showDashboard();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Login Failed',
+                        text: 'Invalid username or password',
+                    });
+                    loginBtn.disabled = false;
+                    btnText.textContent = 'Login';
+                }
+            }, 1000);
+        });
+
+        // Show dashboard
+       function showDashboard() {
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('dashboard').classList.add('active');
+    listenToBookings(); // Start real-time listener
+}
+        // Logout
+        function logout() {
+            Swal.fire({
+                title: 'Logout?',
+                text: 'Are you sure you want to logout?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Logout',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    sessionStorage.removeItem('adminLoggedIn');
+                    location.reload();
+                }
+            });
+        }
+
+      // Listen to bookings in real time from Firebase
+function listenToBookings() {
+    bookingsRef.on('value', (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+            bookings = Object.keys(data).map(key => ({
+                firebaseKey: key,
+                ...data[key]
+            }));
+        } else {
+            bookings = [];
+        }
+        updateStats();
+        renderBookings();
+    });
+}
+
+        // Update statistics
+        function updateStats() {
+            const total = bookings.length;
+            const pending = bookings.filter(b => b.status === 'pending').length;
+            const confirmed = bookings.filter(b => b.status === 'confirmed').length;
+            const today = bookings.filter(b => {
+                const bookingDate = new Date(b.date).toDateString();
+                const todayDate = new Date().toDateString();
+                return bookingDate === todayDate;
+            }).length;
+
+            document.getElementById('totalBookings').textContent = total;
+            document.getElementById('pendingBookings').textContent = pending;
+            document.getElementById('confirmedBookings').textContent = confirmed;
+            document.getElementById('todayBookings').textContent = today;
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        // Format time
+        function formatTime(timeString) {
+            const [hours, minutes] = timeString.split(':');
+            const hour = parseInt(hours);
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            const displayHour = hour % 12 || 12;
+            return `${displayHour}:${minutes} ${ampm}`;
+        }
+
+        // Render bookings
+        function renderBookings() {
+            const grid = document.getElementById('bookingsGrid');
+            
+            let filteredBookings = bookings;
+            
+            // Apply filter
+            if (currentFilter !== 'all') {
+                filteredBookings = bookings.filter(b => b.status === currentFilter);
+            }
+            
+            // Apply search
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (searchTerm) {
+                filteredBookings = filteredBookings.filter(b => 
+                    b.name.toLowerCase().includes(searchTerm) ||
+                    b.email.toLowerCase().includes(searchTerm) ||
+                    b.id.toLowerCase().includes(searchTerm) ||
+                    b.phone.includes(searchTerm)
+                );
+            }
+            
+            if (filteredBookings.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-bookings">
+                        <i class="fas fa-calendar-times"></i>
+                        <h3 style="color: var(--gold); margin-bottom: 0.5rem;">No bookings found</h3>
+                        <p>${searchTerm ? 'Try a different search term' : 'No bookings match the current filter'}</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            filteredBookings.forEach((booking, index) => {
+                const originalIndex = bookings.findIndex(b => b.id === booking.id);
+                html += `
+                    <div class="booking-card">
+                        <div class="booking-info">
+                            <div class="booking-id">ID: ${booking.id}</div>
+                            <h5>${booking.name}</h5>
+                            <div class="booking-status ${booking.status === 'confirmed' ? 'status-confirmed' : 'status-pending'}">
+                                ${booking.status === 'confirmed' ? '✓ Confirmed' : '⏳ Pending'}
+                            </div>
+                            <div class="booking-details">
+                                <div class="booking-detail">
+                                    <i class="fas fa-concierge-bell"></i>
+                                    <span>${booking.service}</span>
+                                </div>
+                                <div class="booking-detail">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>${formatDate(booking.date)}</span>
+                                </div>
+                                <div class="booking-detail">
+                                    <i class="fas fa-clock"></i>
+                                    <span>${formatTime(booking.time)}</span>
+                                </div>
+                                <div class="booking-detail">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>${booking.email}</span>
+                                </div>
+                                <div class="booking-detail">
+                                    <i class="fas fa-phone"></i>
+                                    <span>${booking.phone}</span>
+                                </div>
+                            </div>
+                            ${booking.message ? `
+                                <div class="booking-message">
+                                    <strong style="color: var(--gold);">Note:</strong> ${booking.message}
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="booking-actions">
+                            ${booking.status === 'pending' ? `
+                                <button class="btn-confirm" onclick="confirmBooking(${originalIndex})">
+                                    <i class="fas fa-check"></i> Confirm
+                                </button>
+                            ` : '<div></div>'}
+                            <button class="btn-delete" onclick="deleteBooking(${originalIndex})">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            grid.innerHTML = html;
+        }
+
+        // Filter bookings
+        function filterBookings(filter) {
+            currentFilter = filter;
+            
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.filter === filter) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            renderBookings();
+        }
+
+        // Search bookings
+        function searchBookings() {
+            renderBookings();
+        }
+
+        // Confirm booking
+        function confirmBooking(index) {
+            Swal.fire({
+                title: 'Confirm Booking?',
+                text: 'This will mark the booking as confirmed.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Confirm',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                   const booking = bookings[index];
+bookingsRef.child(booking.firebaseKey).update({ status: 'confirmed' });
+// UI will auto-update via Firebase listener — no need to call updateStats/renderBookings
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Booking Confirmed!',
+                        text: 'The customer will be notified.',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+        // Delete booking
+        function deleteBooking(index) {
+            Swal.fire({
+                title: 'Delete Booking?',
+                text: 'This action cannot be undone.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Delete',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                  const booking = bookings[index];
+bookingsRef.child(booking.firebaseKey).remove();
+// UI will auto-update
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Deleted!',
+                        text: `Booking ${deleted.id} has been removed.`,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+        // Refresh bookings
+      function refreshBookings() {
+    // Real-time sync is automatic — just show success
+    Swal.fire({
+        icon: 'success',
+        title: 'Already Live!',
+        text: 'Bookings update in real time.',
+        timer: 1500,
+        showConfirmButton: false
+    });
+}
+        // Export bookings as CSV
+        function exportBookings() {
+            if (bookings.length === 0) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'No Data',
+                    text: 'There are no bookings to export.'
+                });
+                return;
+            }
+
+            let csv = 'Booking ID,Name,Email,Phone,Service,Date,Time,Status,Message,Created At\n';
+            
+            bookings.forEach(booking => {
+                csv += `"${booking.id}","${booking.name}","${booking.email}","${booking.phone}","${booking.service}","${booking.date}","${booking.time}","${booking.status}","${booking.message || ''}","${booking.createdAt}"\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `demylis-bookings-${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Exported!',
+                text: 'Bookings exported successfully.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+
+        // Toggle sidebar on mobile
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+       
+
+        console.log('%c🎨 D\'EMYLI\'S EMPIRE Admin Dashboard 🎨', 'color: #d4af37; font-size: 16px; font-weight: bold;');
+        console.log('%cDefault Login: admin / demylis2025', 'color: #b8b8b8; font-size: 12px;');
+    </script>
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAfv80H3aYA_HO-9MisYG6VrPhQGTUmT3k",
+    authDomain: "d-emyli-s-empire.firebaseapp.com",
+    projectId: "d-emyli-s-empire",
+    storageBucket: "d-emyli-s-empire.firebasestorage.app",
+    messagingSenderId: "353331645531",
+    appId: "1:353331645531:web:65658001a2fa1378ff037e",
+    measurementId: "G-XWVWVZ8HGG"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+</body>
+</html>

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D'EMYLI'S EMPIRE - Premium Beauty & Body Art Studio</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+     <link rel="stylesheet" href="styles.css">
+
+     
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">D'EMYLI'S EMPIRE</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="border: 2px solid var(--gold);">
+                <i class="fas fa-bars" style="color: var(--gold);"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#testimonials">Reviews</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+                    <li class="nav-item"><a class="btn btn-book" href="#booking">Book Now</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1>D'EMYLI'S EMPIRE</h1>
+            <p class="hero-tagline">Where Beauty Meets Artistry</p>
+            <div class="hero-btns">
+                <a href="#services" class="btn btn-primary-custom">Explore Services</a>
+                <a href="#booking" class="btn btn-secondary-custom">Book Appointment</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Our Premium Services</h2>
+                <p>Luxury beauty treatments crafted with precision and care</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-card">
+                        <img src="https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?q=80&w=800" alt="Tattoos" class="service-img">
+                        <div class="service-overlay">
+                            <h3 class="service-title">Tattoos</h3>
+                            <p class="service-desc">Custom artistic body ink designed to tell your unique story with precision and creativity.</p>
+                            <button class="service-btn" onclick="showServiceModal('tattoos')">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-card">
+                        <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?q=80&w=800" alt="Lash Extensions" class="service-img">
+                        <div class="service-overlay">
+                            <h3 class="service-title">Lash Extensions</h3>
+                            <p class="service-desc">Premium lash enhancement services for voluminous, natural-looking beauty that lasts.</p>
+                            <button class="service-btn" onclick="showServiceModal('lashes')">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-card">
+                        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=800" alt="Frontal Installation" class="service-img">
+                        <div class="service-overlay">
+                            <h3 class="service-title">Frontal Installation</h3>
+                            <p class="service-desc">Expert hair frontal and closure services for seamless, natural-looking perfection.</p>
+                            <button class="service-btn" onclick="showServiceModal('frontal')">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-card">
+                        <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=800" alt="Brow Maintenance" class="service-img">
+                        <div class="service-overlay">
+                            <h3 class="service-title">Brow Maintenance</h3>
+                            <p class="service-desc">Professional brow shaping, tinting, and care for perfectly sculpted arches.</p>
+                            <button class="service-btn" onclick="showServiceModal('brows')">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Our Portfolio</h2>
+                <p>Witness the artistry and transformation</p>
+            </div>
+            <div class="gallery-filters" data-aos="fade-up">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="tattoos">Tattoos</button>
+                <button class="filter-btn" data-filter="lashes">Lashes</button>
+                <button class="filter-btn" data-filter="hair">Hair</button>
+                <button class="filter-btn" data-filter="brows">Brows</button>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-category="tattoos" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?q=80&w=800" alt="Tattoo Work">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="lashes" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1583001931096-959e8b6a2a6d?q=80&w=800" alt="Lash Extensions">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="hair" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?q=80&w=800" alt="Hair Installation">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="brows" data-aos="zoom-in" data-aos-delay="400">
+                    <img src="https://images.unsplash.com/photo-1588537150620-0f29af45f5b5?q=80&w=800" alt="Brow Shaping">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="tattoos" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1611501275019-9b5cda994e3d?q=80&w=800" alt="Custom Tattoo">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="lashes" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1631214524020-7e18db9a8f92?q=80&w=800" alt="Volume Lashes">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="hair" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?q=80&w=800" alt="Frontal Styling">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="brows" data-aos="zoom-in" data-aos-delay="400">
+                    <img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?q=80&w=800" alt="Brow Design">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>About D'EMYLI'S EMPIRE</h2>
+                <p>Excellence in beauty and body art since the beginning</p>
+            </div>
+            <div class="about-content">
+                <div class="about-img" data-aos="fade-right">
+                    <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=800" alt="Studio">
+                </div>
+                <div class="about-text" data-aos="fade-left">
+                    <h3>Crafting Beauty, Creating Art</h3>
+                    <p>At D'EMYLI'S EMPIRE, we believe that beauty is an art form that deserves nothing less than perfection. Our studio combines luxury with expertise, offering a sanctuary where your vision transforms into reality.</p>
+                    <p>With years of experience and a passion for excellence, we specialize in premium beauty services that enhance your natural elegance. From intricate tattoo designs to flawless lash extensions, every service is delivered with meticulous attention to detail.</p>
+                    <div class="achievement">
+                        <i class="fas fa-certificate"></i>
+                        <span>Certified Beauty Professionals</span>
+                    </div>
+                    <div class="achievement">
+                        <i class="fas fa-award"></i>
+                        <span>Premium Quality Products</span>
+                    </div>
+                    <div class="achievement">
+                        <i class="fas fa-heart"></i>
+                        <span>Thousands of Satisfied Clients</span>
+                    </div>
+                    <div class="achievement">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Hygiene & Safety First</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Client Testimonials</h2>
+                <p>What our valued clients say about us</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-card">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200" alt="Client" class="testimonial-img">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"Absolutely phenomenal! My lash extensions look incredibly natural and have lasted beautifully. The attention to detail is unmatched."</p>
+                        <p class="testimonial-name">Sarah Johnson</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-card">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200" alt="Client" class="testimonial-img">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"The custom tattoo exceeded my expectations! D'emyli truly understood my vision and brought it to life with incredible artistry."</p>
+                        <p class="testimonial-name">Michael Chen</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="testimonial-card">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200" alt="Client" class="testimonial-img">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"Professional, clean, and luxurious! My frontal installation looks flawless. I've found my forever beauty destination."</p>
+                        <p class="testimonial-name">Amanda Davis</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Frequently Asked Questions</h2>
+                <p>Everything you need to know</p>
+            </div>
+            <div class="accordion" data-aos="fade-up">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            How long do lash extensions last?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse show">
+                        <div class="accordion-body">
+                            Lash extensions typically last 4-6 weeks with proper care. We recommend touch-ups every 2-3 weeks to maintain the fullness and beauty of your lashes.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            Is the tattoo process painful?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            Pain levels vary by individual and placement. We use professional techniques and can discuss numbing options to ensure your comfort throughout the process.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            What aftercare is required for frontal installations?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            We provide comprehensive aftercare instructions including proper washing techniques, recommended products, and styling tips to ensure longevity and maintain the health of your natural hair.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                            How often should I get my brows maintained?
+                        </button>
+                    </h2>
+                    <div id="faq4" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            For optimal results, we recommend brow maintenance every 3-4 weeks. This ensures your brows stay perfectly shaped and groomed.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                            Do you use sterilized equipment?
+                        </button>
+                    </h2>
+                    <div id="faq5" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            Absolutely! Safety and hygiene are our top priorities. All equipment is professionally sterilized, and we follow strict health and safety protocols for every service.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Book Your Appointment</h2>
+                <p>Transform your look today</p>
+            </div>
+            <div class="booking-form" data-aos="fade-up">
+                <form id="bookingForm">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="service" class="form-label">Select Service</label>
+                        <select class="form-control" id="service" required>
+                            <option value="">Choose a service...</option>
+                            <option value="tattoos">Tattoos</option>
+                            <option value="lashes">Lash Extensions</option>
+                            <option value="frontal">Frontal Installation</option>
+                            <option value="brows">Brow Maintenance</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="date" class="form-label">Preferred Date</label>
+                            <input type="date" class="form-control" id="date" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="time" class="form-label">Preferred Time</label>
+                            <input type="time" class="form-control" id="time" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Additional Notes</label>
+                        <textarea class="form-control" id="message" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Confirm Booking</button>
+                </form>
+                <div class="social-links">
+                    <a href="https://wa.me/" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://instagram.com/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://facebook.com/" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="https://twitter.com/" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>D'EMYLI'S EMPIRE</h4>
+                    <p>Your premier destination for luxury beauty and body art services.</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</p>
+                    <p><i class="fas fa-phone"></i> +234 XXX XXX XXXX</p>
+                    <p><i class="fas fa-envelope"></i> info@demylisempire.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="#home">Home</a>
+                    <a href="#services">Services</a>
+                    <a href="#gallery">Gallery</a>
+                    <a href="#about">About Us</a>
+                    <a href="#booking">Book Now</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <a href="#services">Tattoos</a>
+                    <a href="#services">Lash Extensions</a>
+                    <a href="#services">Frontal Installation</a>
+                    <a href="#services">Brow Maintenance</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Opening Hours</h4>
+                    <p>Monday - Friday: 9:00 AM - 7:00 PM</p>
+                    <p>Saturday: 10:00 AM - 6:00 PM</p>
+                    <p>Sunday: By Appointment</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 D'EMYLI'S EMPIRE. All Rights Reserved. | Designed with Excellence</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Service Modal -->
+    <div class="modal fade" id="serviceModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background: var(--secondary-dark); border: 2px solid var(--gold);">
+                <div class="modal-header" style="border-bottom: 1px solid var(--gold);">
+                    <h5 class="modal-title" style="color: var(--gold);" id="modalTitle">Service Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" style="filter: invert(1);"></button>
+                </div>
+                <div class="modal-body" id="modalBody" style="color: var(--text-muted);">
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid var(--gold);">
+                    <a href="#booking" class="btn btn-primary-custom" data-bs-dismiss="modal">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+        // Preloader
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('preloader').style.opacity = '0';
+                setTimeout(function() {
+                    document.getElementById('preloader').style.display = 'none';
+                }, 500);
+            }, 1000);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    const navbarCollapse = document.querySelector('.navbar-collapse');
+                    if (navbarCollapse.classList.contains('show')) {
+                        bootstrap.Collapse.getInstance(navbarCollapse).hide();
+                    }
+                }
+            });
+        });
+
+        // Gallery filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                const filter = this.getAttribute('data-filter');
+                
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'scale(1)';
+                        }, 10);
+                    } else {
+                        item.style.opacity = '0';
+                        item.style.transform = 'scale(0.8)';
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // Back to top button
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                backToTop.style.display = 'flex';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+        
+        backToTop.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Service modal data
+        const serviceData = {
+            tattoos: {
+                title: 'Custom Tattoos',
+                content: `<h6 style="color: var(--gold); margin-bottom: 1rem;">Artistic Body Ink</h6>
+                         <p>Our tattoo services offer custom designs tailored to your vision. From minimalist symbols to intricate full-sleeve masterpieces, we bring your ideas to life with precision and artistry.</p>
+                         <h6 style="color: var(--gold); margin: 1.5rem 0 1rem;">What We Offer:</h6>
+                         <ul>
+                             <li>Custom design consultation</li>
+                             <li>Cover-up and restoration</li>
+                             <li>Black & grey or full color</li>
+                             <li>All styles: Traditional, Realism, Geometric, Watercolor</li>
+                             <li>Sterile, professional environment</li>
+                         </ul>
+                         <p style="margin-top: 1rem;"><strong>Duration:</strong> 1-6+ hours depending on design<br>
+                         <strong>Aftercare:</strong> Comprehensive guidance provided</p>`
+            },
+            lashes: {
+                title: 'Lash Extensions',
+                content: `<h6 style="color: var(--gold); margin-bottom: 1rem;">Premium Lash Enhancement</h6>
+                         <p>Experience the luxury of wake-up-ready lashes. Our premium lash extensions enhance your natural beauty with customizable volume, length, and curl.</p>
+                         <h6 style="color: var(--gold); margin: 1.5rem 0 1rem;">Service Options:</h6>
+                         <ul>
+                             <li>Classic lashes (natural look)</li>
+                             <li>Volume lashes (dramatic effect)</li>
+                             <li>Hybrid lashes (perfect balance)</li>
+                             <li>Mega volume lashes</li>
+                             <li>Lash lift and tint</li>
+                         </ul>
+                         <p style="margin-top: 1rem;"><strong>Duration:</strong> 1.5-3 hours<br>
+                         <strong>Lasts:</strong> 4-6 weeks with proper care<br>
+                         <strong>Touch-ups:</strong> Recommended every 2-3 weeks</p>`
+            },
+            frontal: {
+                title: 'Frontal Installation',
+                content: `<h6 style="color: var(--gold); margin-bottom: 1rem;">Expert Hair Installation</h6>
+                         <p>Achieve a flawless, natural hairline with our professional frontal and closure installation services. We specialize in seamless blending and protective styling.</p>
+                         <h6 style="color: var(--gold); margin: 1.5rem 0 1rem;">Services Include:</h6>
+                         <ul>
+                             <li>Lace frontal installation (13x4, 13x6)</li>
+                             <li>Closure installation (4x4, 5x5)</li>
+                             <li>360 frontal installation</li>
+                             <li>Custom bleaching and plucking</li>
+                             <li>Styling and cutting</li>
+                         </ul>
+                         <p style="margin-top: 1rem;"><strong>Duration:</strong> 2-4 hours<br>
+                         <strong>Maintenance:</strong> Every 4-6 weeks<br>
+                         <strong>Quality:</strong> Premium human hair only</p>`
+            },
+            brows: {
+                title: 'Brow Maintenance',
+                content: `<h6 style="color: var(--gold); margin-bottom: 1rem;">Professional Brow Care</h6>
+                         <p>Perfect brows frame your face and enhance your features. Our expert brow maintenance services ensure your arches are always on point.</p>
+                         <h6 style="color: var(--gold); margin: 1.5rem 0 1rem;">Services Include:</h6>
+                         <ul>
+                             <li>Brow shaping and sculpting</li>
+                             <li>Brow tinting</li>
+                             <li>Brow lamination</li>
+                             <li>Threading and waxing</li>
+                             <li>Consultation and design</li>
+                         </ul>
+                         <p style="margin-top: 1rem;"><strong>Duration:</strong> 30-60 minutes<br>
+                         <strong>Frequency:</strong> Every 3-4 weeks<br>
+                         <strong>Results:</strong> Perfectly shaped, defined brows</p>`
+            }
+        };
+
+        function showServiceModal(service) {
+            const modal = new bootstrap.Modal(document.getElementById('serviceModal'));
+            const data = serviceData[service];
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalBody').innerHTML = data.content;
+            modal.show();
+        }
+
+        // Form validation and Firebase submission
+document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get form values
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const service = document.getElementById('service').value;
+    const date = document.getElementById('date').value;
+    const time = document.getElementById('time').value;
+    const message = document.getElementById('message').value.trim();
+    
+    // Basic validation
+    if (!name || !email || !phone || !service || !date || !time) {
+        alert('Please fill in all required fields');
+        return;
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address');
+        return;
+    }
+    
+    // Generate unique booking ID (e.g., BK-20250415-12345)
+    const now = new Date();
+    const timestamp = now.getTime();
+    const randomNum = Math.floor(10000 + Math.random() * 90000);
+    const bookingId = `BK-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}-${randomNum}`;
+    
+    // Create booking object
+    const bookingData = {
+        id: bookingId,
+        name: name,
+        email: email,
+        phone: phone,
+        service: service,
+        date: date,
+        time: time,
+        message: message,
+        status: 'pending', // Default status
+        createdAt: now.toISOString()
+    };
+    
+    // Save to Firebase
+    bookingsRef.push(bookingData)
+        .then(() => {
+            // Success
+            alert('Thank you for your booking request! We will contact you shortly to confirm your appointment.');
+            document.getElementById('bookingForm').reset();
+        })
+        .catch((error) => {
+            console.error('Booking failed:', error);
+            alert('Sorry, there was an error submitting your booking. Please try again.');
+        });
+});
+        // Set minimum date for booking (today)
+        const dateInput = document.getElementById('date');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+    </script>
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAfv80H3aYA_HO-9MisYG6VrPhQGTUmT3k",
+    authDomain: "d-emyli-s-empire.firebaseapp.com",
+    projectId: "d-emyli-s-empire",
+    storageBucket: "d-emyli-s-empire.firebasestorage.app",
+    messagingSenderId: "353331645531",
+    appId: "1:353331645531:web:65658001a2fa1378ff037e",
+    measurementId: "G-XWVWVZ8HGG"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+</body>
+</html>
