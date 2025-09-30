@@ -466,6 +466,28 @@
     
     <!-- AOS Animation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+   <!-- Firebase Compat SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script>
+  // Firebase configuration (MUST include databaseURL)
+  const firebaseConfig = {
+    apiKey: "AIzaSyAfv80H3aYA_HO-9MisYG6VrPhQGTUmT3k",
+    authDomain: "d-emyli-s-empire.firebaseapp.com",
+    databaseURL: "https://d-emyli-s-empire-default-rtdb.firebaseio.com", // ⚠️ Critical!
+    projectId: "d-emyli-s-empire",
+    storageBucket: "d-emyli-s-empire.firebasestorage.app",
+    messagingSenderId: "353331645531",
+    appId: "1:353331645531:web:65658001a2fa1378ff037e"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+  const bookingsRef = database.ref('bookings');
+</script>
     
     <script>
   // Initialize AOS
@@ -638,21 +660,7 @@
       modal.show();
   }
 
-  // ✅ ADD FIREBASE INITIALIZATION HERE (before form submission)
-  const firebaseConfig = {
-    apiKey: "AIzaSyAfv80H3aYA_HO-9MisYG6VrPhQGTUmT3k",
-    authDomain: "d-emyli-s-empire.firebaseapp.com",
-    databaseURL: "https://d-emyli-s-empire-default-rtdb.firebaseio.com",
-    projectId: "d-emyli-s-empire",
-    storageBucket: "d-emyli-s-empire.firebasestorage.app",
-    messagingSenderId: "353331645531",
-    appId: "1:353331645531:web:65658001a2fa1378ff037e"
-  };
-
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
-  const bookingsRef = database.ref('bookings');
+  
 
   // Form validation and Firebase submission
   document.getElementById('bookingForm').addEventListener('submit', function(e) {
