@@ -847,3 +847,74 @@ body.sidebar-open .main-content {
     }
 }
 
+/* Dashboard header layout */
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--secondary-dark);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* Mobile menu toggle */
+.mobile-menu-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--gold);
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* Title area */
+.dashboard-title {
+    flex: 1;
+    min-width: 180px;
+}
+
+/* Actions */
+.dashboard-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Hide toggle on desktop */
+@media (min-width: 992px) {
+    .mobile-menu-toggle {
+        display: none;
+    }
+}
+
+/* Mobile main content padding */
+@media (max-width: 991.98px) {
+    .main-content {
+        padding-top: 80px; /* Make room for fixed header */
+    }
+}
+
+/* Sidebar backdrop on mobile */
+.sidebar-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1035;
+    display: none;
+}
+
+.sidebar-backdrop.active {
+    display: block;
+}
