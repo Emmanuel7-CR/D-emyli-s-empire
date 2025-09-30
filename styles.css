@@ -727,3 +727,15 @@
                 padding: 2rem 1.5rem;
             }
         }
+/* Prevent horizontal overflow */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* Ensure container doesn't exceed viewport */
+.container {
+    max-width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+}

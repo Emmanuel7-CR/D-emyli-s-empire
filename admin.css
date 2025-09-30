@@ -38,7 +38,7 @@
         
         .login-box {
             background: var(--secondary-dark);
-            padding: 3rem;
+            padding: 2rem;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             border: 2px solid var(--gold);
@@ -655,7 +655,7 @@
         
         @media (max-width: 576px) {
             .login-box {
-                padding: 2rem 1.5rem;
+                padding: 2rem;
             }
             
             .stats-grid {
